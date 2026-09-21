@@ -1,0 +1,39 @@
+
+services:
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: at_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: jora
+      POSTGRES_PASSWORD: jora
+      POSTGRES_DB: ai_data
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: jora@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: jora
+
+    ports:
+      - "778:80"
+
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
+  pgadmin:
